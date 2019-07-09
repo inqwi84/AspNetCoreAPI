@@ -1,4 +1,6 @@
-﻿namespace TimeTrackingSystem.Data.Model
+﻿using System.Collections.Generic;
+
+namespace TimeTrackingSystem.Data.Model
 {
     /// <summary>
     /// Модель отдела
@@ -13,5 +15,15 @@
         /// Наименование отдела
         /// </summary>
         public string DepartmentName { get; set; }
+
+        /// <summary>
+        /// Список сотрудников
+        /// </summary>
+        public List<Employee> Employees { get; set; }
+
+        public Department()
+        {
+            Employees= new List<Employee>();
+        }
     }
 }

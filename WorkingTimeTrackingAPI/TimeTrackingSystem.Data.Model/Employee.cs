@@ -1,4 +1,6 @@
-﻿namespace TimeTrackingSystem.Data.Model
+﻿using System.Collections.Generic;
+
+namespace TimeTrackingSystem.Data.Model
 {
     /// <summary>
     /// Модель сотрудника
@@ -21,5 +23,18 @@
         /// Идентификатор отдела сотрудника
         /// </summary>
         public long DepartmentId { get; set; }
+        /// <summary>
+        /// Флаг уволенного(удаленного) сотрудника
+        /// </summary>
+        public long IsDeleted { get; set; }
+        /// <summary>
+        /// Список периодов работы
+        /// </summary>
+        public IList<Timesheet> Timesheets { get; set; }
+
+        public Employee()
+        {
+            Timesheets=new List<Timesheet>();
+        }
     }
 }
