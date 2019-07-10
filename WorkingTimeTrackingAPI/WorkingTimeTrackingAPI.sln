@@ -3,23 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem", "TimeTrackingSystem\TimeTrackingSystem.csproj", "{5F28D87A-A8C3-4174-A6FD-994B142A2E87}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem", "TimeTrackingSystem\TimeTrackingSystem.csproj", "{5F28D87A-A8C3-4174-A6FD-994B142A2E87}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.Api.Core", "TimeTrackingSystem.Api.Core\TimeTrackingSystem.Api.Core.csproj", "{60F5A9E6-4C09-43FB-BC25-7C504AF4941B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Api.Core", "TimeTrackingSystem.Api.Core\TimeTrackingSystem.Api.Core.csproj", "{60F5A9E6-4C09-43FB-BC25-7C504AF4941B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.Models", "TimeTrackingSystem.Models\TimeTrackingSystem.Models.csproj", "{70BD43CD-C160-469A-8C12-D268DB52C5DB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Models", "TimeTrackingSystem.Models\TimeTrackingSystem.Models.csproj", "{70BD43CD-C160-469A-8C12-D268DB52C5DB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.Data.Access", "TimeTrackingSystem.Data.Access\TimeTrackingSystem.Data.Access.csproj", "{5FEF822B-280D-416C-BCC3-A65E2CDB5FAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Data.Access", "TimeTrackingSystem.Data.Access\TimeTrackingSystem.Data.Access.csproj", "{5FEF822B-280D-416C-BCC3-A65E2CDB5FAD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.Data.Model", "TimeTrackingSystem.Data.Model\TimeTrackingSystem.Data.Model.csproj", "{2F73A6F5-D29C-45FC-B7B0-1AC6C2B29C26}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.QueryProcessor", "TimeTrackingSystem.QueryProcessor\TimeTrackingSystem.QueryProcessor.csproj", "{788FD0C8-0C47-42A7-9A1A-ED521AE8B917}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Data.Model", "TimeTrackingSystem.Data.Model\TimeTrackingSystem.Data.Model.csproj", "{2F73A6F5-D29C-45FC-B7B0-1AC6C2B29C26}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1D101DF0-1DDF-4AA4-B53E-D7B3120F667D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.Api.Tests", "TimeTrackingSystem.Api.Tests\TimeTrackingSystem.Api.Tests.csproj", "{C5E6F1AA-3D13-418C-BD46-91E307A62278}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Api.Tests", "TimeTrackingSystem.Api.Tests\TimeTrackingSystem.Api.Tests.csproj", "{C5E6F1AA-3D13-418C-BD46-91E307A62278}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TimeTrackingSystem.queryProcessor.Tests", "TimeTrackingSystem.queryProcessor.Tests\TimeTrackingSystem.queryProcessor.Tests.csproj", "{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.queryProcessor.Tests", "TimeTrackingSystem.queryProcessor.Tests\TimeTrackingSystem.queryProcessor.Tests.csproj", "{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,10 +45,6 @@ Global
 		{2F73A6F5-D29C-45FC-B7B0-1AC6C2B29C26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2F73A6F5-D29C-45FC-B7B0-1AC6C2B29C26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2F73A6F5-D29C-45FC-B7B0-1AC6C2B29C26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{788FD0C8-0C47-42A7-9A1A-ED521AE8B917}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{788FD0C8-0C47-42A7-9A1A-ED521AE8B917}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{788FD0C8-0C47-42A7-9A1A-ED521AE8B917}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{788FD0C8-0C47-42A7-9A1A-ED521AE8B917}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Release|Any CPU.ActiveCfg = Release|Any CPU
