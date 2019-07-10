@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Data.Access.Context;
 using TimeTrackingSystem.Data.Model;
+using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Data.Access.DAL
 {
@@ -25,10 +27,10 @@ namespace TimeTrackingSystem.Data.Access.DAL
             return await _context.Employees.ToListAsync().ConfigureAwait(false);
         }
 
-        public async Task<List<Department>> GetAllDepartments()
+        public async Task<List<DepartmentInfo>> GetAllDepartments()
         {
             _logger.LogCritical("Getting a the existing records");
-            return await _context.Departments.ToListAsync().ConfigureAwait(false);
+            return await _context.Departments.Select(d=> new DepartmentInfo {DepartmentName = d.DepartmentName,EmployeeCount = d.Employees.Count}).ToListAsync().ConfigureAwait(false);
         }
     }
 }

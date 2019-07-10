@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using TimeTrackingSystem.Data.Model;
+using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Data.Access.DAL
 {
@@ -8,6 +9,6 @@ namespace TimeTrackingSystem.Data.Access.DAL
     {
         Task<List<Employee>> GetAllEmployees();
 
-        Task<List<Department>> GetAllDepartments();
+        Task<List<DepartmentInfo>> GetAllDepartments();
     }
 }

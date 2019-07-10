@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
 using TimeTrackingSystem.Data.Model;
+using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Controllers
 {
@@ -30,7 +31,7 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of departments</returns>
         [HttpGet("department")]
-        public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
+        public async Task<ActionResult<IEnumerable<DepartmentInfo>>> GetDepartments()
         {
             return await _repository.GetAllDepartments();
         }
