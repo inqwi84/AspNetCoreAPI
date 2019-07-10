@@ -75,13 +75,46 @@ namespace TimeTrackingSystem.Controllers
         {
             try
             {
-                return Ok(new { EmployeeId = await _repository.UpdateEmployee(new Employee() { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
+                return Ok(new { EmployeeId = await _repository.UpdateEmployee(new Employee { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
             }
             catch (Exception ex)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
             }
         }
+        /// <summary>
+        /// Add department
+        /// </summary>
+        [HttpPost("department")]
+        public async Task<IActionResult> CreateDepartment([Required] string Name)
+        {
+            try
+            {
+                return Ok(new { DepartmentId = await _repository.AddDepartment(new Department { DepartmentName = Name }) });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Update department
+        /// </summary>
+        [HttpPut("department")]
+        public async Task<IActionResult> UpdateDepartment([Required] string Name, [Required] long DepartmentId)
+        {
+            try
+            {
+                return Ok(new { DepartmentId = await _repository.UpdateDepartment(new Department() { DepartmentId = DepartmentId, DepartmentName = Name }) });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)

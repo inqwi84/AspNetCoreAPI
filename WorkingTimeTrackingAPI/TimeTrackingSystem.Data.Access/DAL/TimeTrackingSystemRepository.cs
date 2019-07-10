@@ -51,6 +51,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return employee.EmployeeId;
         }
+
         public async Task<long> UpdateEmployee(Employee employee)
         {
             _logger.LogCritical("Getting a the existing records");
@@ -61,6 +62,23 @@ namespace TimeTrackingSystem.Data.Access.DAL
             existing.DepartmentId = employee.DepartmentId;
             await _context.SaveChangesAsync();
             return employee.EmployeeId;
+        }
+        public async Task<long> AddDepartment(Department department)
+        {
+            _logger.LogCritical("Getting a the existing records");
+            _context.Departments.Add(department);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return department.DepartmentId;
+        }
+
+        public async Task<long> UpdateDepartment(Department department)
+        {
+            _logger.LogCritical("Getting a the existing records");
+            var existing = _context.Departments.Find(department.DepartmentId);
+            if (existing == null) throw new Exception("Department doesn't exist");
+            existing.DepartmentName = department.DepartmentName;
+            await _context.SaveChangesAsync();
+            return department.DepartmentId;
         }
 
     }
