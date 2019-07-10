@@ -17,6 +17,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeTrackingSystem.Api.Core\TimeTrackingSystem.Api.Core.csproj" />
     <ProjectReference Include="..\TimeTrackingSystem.Data.Access\TimeTrackingSystem.Data.Access.csproj" />
   </ItemGroup>
 

@@ -12,5 +12,6 @@ namespace TimeTrackingSystem.Data.Access.DAL
         Task<IEnumerable<DepartmentInfo>> GetAllDepartments();
 
         Task<long> AddEmployee(Employee employee);
+        Task<long> UpdateEmployee(Employee employee);
     }
 }

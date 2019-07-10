@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.Security.Policy;
+using System.Net;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
 using TimeTrackingSystem.Data.Model;
-using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Controllers
 {
@@ -25,29 +23,65 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of employees</returns>
         [HttpGet("employee")]
-        public async Task<IEnumerable<EmployeeInfo>> GetEmployees()
+        public async Task<ActionResult> GetEmployees()
         {
-            return await _repository.GetAllEmployees();
+            try
+            {
+                return Ok(await _repository.GetAllEmployees());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
         /// <summary>
         /// Get all departments
         /// </summary>
         /// <returns>List of departments</returns>
         [HttpGet("department")]
-        public async Task<IEnumerable<DepartmentInfo>> GetDepartments()
+        public async Task<ActionResult> GetDepartments()
         {
-            return await _repository.GetAllDepartments();
+            try
+            {
+                return Ok(await _repository.GetAllDepartments());
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
-
+        /// <summary>
+        /// Add employee
+        /// </summary>
         [HttpPost("employee")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
         public async Task<IActionResult> CreateEmployee([Required] string LastName, [Required]string FirstName, [Required] long DepartmentId)
         {
-            var result = await _repository.AddEmployee(new Employee() { DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName });
-            return CreatedAtAction(nameof(CreateEmployee), new { EmployeeId = result });
+            try
+            {
+                return Ok(new { EmployeeId = await _repository.AddEmployee(new Employee { DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
         }
 
+        /// <summary>
+        /// Update employee
+        /// </summary>
+        [HttpPut("employee")]
+        public async Task<IActionResult> UpdateEmployee([Required] long EmployeeId, [Required] string LastName, [Required]string FirstName, [Required] long DepartmentId)
+        {
+            try
+            {
+                return Ok(new { EmployeeId = await _repository.UpdateEmployee(new Employee() { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)

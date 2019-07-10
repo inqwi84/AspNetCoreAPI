@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
+using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Data.Access.Context;
 using TimeTrackingSystem.Data.Access.DAL;
 
@@ -68,7 +69,7 @@ namespace TimeTrackingSystem
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{_apiName} {_apiVersion}");
             });
 
-
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseMvc();
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -23,8 +24,18 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<IEnumerable<EmployeeInfo>> GetAllEmployees()
         {
-            _logger.LogCritical("Getting a the existing records");
-            return await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo() { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
+            IEnumerable<EmployeeInfo> result = Enumerable.Empty<EmployeeInfo>();
+            try
+            {
+                _logger.LogCritical("Getting a the existing records");
+                result = await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo() { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
+            }
+            catch (Exception e)
+            {
+                throw new Exception(e.Message);
+            }
+
+            return result;
         }
 
         public async Task<IEnumerable<DepartmentInfo>> GetAllDepartments()
@@ -40,5 +51,17 @@ namespace TimeTrackingSystem.Data.Access.DAL
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return employee.EmployeeId;
         }
+        public async Task<long> UpdateEmployee(Employee employee)
+        {
+            _logger.LogCritical("Getting a the existing records");
+            var existing = _context.Employees.Find(employee.EmployeeId);
+            if (existing == null) throw new Exception("Employee doesn't exist");
+            existing.FirstName = employee.FirstName;
+            existing.LastName = employee.LastName;
+            existing.DepartmentId = employee.DepartmentId;
+            await _context.SaveChangesAsync();
+            return employee.EmployeeId;
+        }
+
     }
 }
