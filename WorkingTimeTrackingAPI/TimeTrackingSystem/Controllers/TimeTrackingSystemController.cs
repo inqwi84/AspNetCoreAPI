@@ -1,7 +1,11 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Security.Policy;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
+using TimeTrackingSystem.Data.Model;
 using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Controllers
@@ -35,6 +39,15 @@ namespace TimeTrackingSystem.Controllers
             return await _repository.GetAllDepartments();
         }
 
+
+        [HttpPost("employee")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        public async Task<IActionResult> CreateEmployee([Required] string LastName, [Required]string FirstName, [Required] long DepartmentId)
+        {
+            var result = await _repository.AddEmployee(new Employee() { DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName });
+            return CreatedAtAction(nameof(CreateEmployee), new { EmployeeId = result });
+        }
+
         // GET api/values/5
         [HttpGet("{id}")]
         public ActionResult<string> Get(int id)
@@ -42,11 +55,11 @@ namespace TimeTrackingSystem.Controllers
             return "value";
         }
 
-        // POST api/values
-        [HttpPost]
-        public void Post([FromBody] string value)
-        {
-        }
+        //// POST api/values
+        //[HttpPost]
+        //public void Post([FromBody] string value)
+        //{
+        //}
 
         // PUT api/values/5
         [HttpPut("{id}")]

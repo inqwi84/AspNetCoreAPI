@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Data.Access.Context;
+using TimeTrackingSystem.Data.Model;
 using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Data.Access.DAL
@@ -23,13 +24,21 @@ namespace TimeTrackingSystem.Data.Access.DAL
         public async Task<IEnumerable<EmployeeInfo>> GetAllEmployees()
         {
             _logger.LogCritical("Getting a the existing records");
-            return await _context.Employees.Include(em => em.Department).Select(em=>new EmployeeInfo(){EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName}).ToArrayAsync().ConfigureAwait(false);
+            return await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo() { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
         }
 
         public async Task<IEnumerable<DepartmentInfo>> GetAllDepartments()
         {
             _logger.LogCritical("Getting a the existing records");
-            return await _context.Departments.Select(d=> new DepartmentInfo {DepartmentName = d.DepartmentName,EmployeeCount = d.Employees.Count}).ToArrayAsync().ConfigureAwait(false);
+            return await _context.Departments.Select(d => new DepartmentInfo { DepartmentName = d.DepartmentName, EmployeeCount = d.Employees.Count }).ToArrayAsync().ConfigureAwait(false);
+        }
+
+        public async Task<long> AddEmployee(Employee employee)
+        {
+            _logger.LogCritical("Getting a the existing records");
+            _context.Employees.Add(employee);
+            await _context.SaveChangesAsync().ConfigureAwait(false);
+            return employee.EmployeeId;
         }
     }
 }
