@@ -28,7 +28,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
             try
             {
                 _logger.LogCritical("Getting a the existing records");
-                result = await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo() { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
+                result = await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
             }
             catch (Exception e)
             {
