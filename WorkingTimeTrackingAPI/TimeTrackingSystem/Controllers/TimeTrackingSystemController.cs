@@ -1,24 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
 using TimeTrackingSystem.Data.Model;
 
 namespace TimeTrackingSystem.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("/[controller]")]
     [ApiController]
-    public class ValuesController : ControllerBase
+    public class TimeTrackingSystemController : ControllerBase
     {
         private readonly ITimeTrackingSystemRepository _repository;
 
-        public ValuesController(ITimeTrackingSystemRepository repository)
+        public TimeTrackingSystemController(ITimeTrackingSystemRepository repository)
         {
             _repository = repository;
         }
-        // GET api/values
+        /// <summary>
+        /// Get all employees
+        /// </summary>
+        /// <returns>List of employees</returns>
         [HttpGet]
         public IEnumerable<Employee> Get()
         {
