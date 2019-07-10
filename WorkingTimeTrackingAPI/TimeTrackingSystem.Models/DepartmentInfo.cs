@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TimeTrackingSystem.Models
+﻿namespace TimeTrackingSystem.Models
 {
     public class DepartmentInfo
     {

@@ -2,7 +2,6 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
-using TimeTrackingSystem.Data.Model;
 using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Controllers
@@ -22,7 +21,7 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of employees</returns>
         [HttpGet("employee")]
-        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
+        public async Task<IEnumerable<EmployeeInfo>> GetEmployees()
         {
             return await _repository.GetAllEmployees();
         }
@@ -31,7 +30,7 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of departments</returns>
         [HttpGet("department")]
-        public async Task<ActionResult<IEnumerable<DepartmentInfo>>> GetDepartments()
+        public async Task<IEnumerable<DepartmentInfo>> GetDepartments()
         {
             return await _repository.GetAllDepartments();
         }

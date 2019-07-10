@@ -23,6 +23,7 @@ namespace TimeTrackingSystem.Data.Model
         /// Идентификатор отдела сотрудника
         /// </summary>
         public long DepartmentId { get; set; }
+        public Department Department { get; set; }
         /// <summary>
         /// Флаг уволенного(удаленного) сотрудника
         /// </summary>
