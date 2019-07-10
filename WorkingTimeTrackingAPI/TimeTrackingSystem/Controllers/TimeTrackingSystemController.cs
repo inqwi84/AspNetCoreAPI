@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Data.Access.DAL;
 using TimeTrackingSystem.Data.Model;
 
@@ -13,9 +14,10 @@ namespace TimeTrackingSystem.Controllers
     public class TimeTrackingSystemController : ControllerBase
     {
         private readonly ITimeTrackingSystemRepository _repository;
-
-        public TimeTrackingSystemController(ITimeTrackingSystemRepository repository)
+        private readonly ILogger _logger;
+        public TimeTrackingSystemController(ITimeTrackingSystemRepository repository, ILogger<TimeTrackingSystemController> logger)
         {
+            _logger = logger;
             _repository = repository;
         }
         /// <summary>
@@ -25,6 +27,8 @@ namespace TimeTrackingSystem.Controllers
         [HttpGet("employee")]
         public async Task<ActionResult> GetEmployees()
         {
+            //пример логирования в файл
+            _logger.LogInformation("Get employees");
             try
             {
                 return Ok(await _repository.GetAllEmployees());
@@ -123,6 +127,23 @@ namespace TimeTrackingSystem.Controllers
             try
             {
                 return Action == false ? Ok(await _repository.StartEmployeeTimeSheet(EmployeeId)) : Ok(await _repository.StopEmployeeTimeSheet(EmployeeId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Get employees total hours at work
+        /// </summary>
+        /// <returns>List of employees</returns>
+        [HttpGet("timesheet")]
+        public async Task<ActionResult> GetEmployeesWorkedHours([Required] DateTime DateFrom, [Required] DateTime DateTo)
+        {
+            try
+            {
+                return Ok(new { StartPeriod = DateFrom, EndPeriod = DateTo, Employee = await _repository.GetEmployeesWorkedHours(DateFrom, DateTo) });
             }
             catch (Exception ex)
             {

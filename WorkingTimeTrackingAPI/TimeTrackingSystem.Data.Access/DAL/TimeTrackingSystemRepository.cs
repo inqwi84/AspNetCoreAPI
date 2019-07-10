@@ -10,6 +10,9 @@ using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Data.Access.DAL
 {
+    /// <summary>
+    /// Репозиторий данных из SQLite
+    /// </summary>
     public class TimeTrackingSystemRepository : ITimeTrackingSystemRepository
     {
         private readonly TimeTrackingSystemDbContext _context;
@@ -124,9 +127,24 @@ namespace TimeTrackingSystem.Data.Access.DAL
                 //Last sheet is completed
                 throw new Exception("Can't end a timesheet before start");
             }
-            _context.Timesheets.Update(new Timesheet() { EmployeeId = employeeId, FinishTime = DateTime.Now.ToUniversalTime() });
+            lastAction.FinishTime = DateTime.Now.ToUniversalTime();
             var result = await _context.SaveChangesAsync().ConfigureAwait(false);
             return result > 0;
+        }
+
+        public async Task<IEnumerable<TimesheetInfo>> GetEmployeesWorkedHours(DateTime dateFrom, DateTime dateTo)
+        {
+            _logger.LogCritical($"Get worked hours for employees from {dateFrom} to {dateTo}");
+            if (dateTo < dateFrom)
+            {
+                throw new Exception("Start date must be greater than end date");
+            }
+            return await _context.Employees.Include(em => em.Department).Include(em => em.Timesheets).Select(i => new TimesheetInfo
+            {
+                EmployeeFullName = $"{i.LastName} {i.FirstName}",
+                DepartmentName = i.Department.DepartmentName,
+                TotalHours = i.Timesheets != null ? i.Timesheets.Where(t => t.FinishTime != null).Select(t => (t.FinishTime - t.StartTime).Value.TotalHours).Sum() : 0
+            }).ToArrayAsync().ConfigureAwait(false);
         }
     }
 }
