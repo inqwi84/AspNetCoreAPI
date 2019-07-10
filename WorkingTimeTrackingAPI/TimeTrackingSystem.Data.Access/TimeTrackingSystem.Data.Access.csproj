@@ -10,6 +10,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TimeTrackingSystem.Api.Core\TimeTrackingSystem.Api.Core.csproj" />
     <ProjectReference Include="..\TimeTrackingSystem.Data.Model\TimeTrackingSystem.Data.Model.csproj" />
     <ProjectReference Include="..\TimeTrackingSystem.Models\TimeTrackingSystem.Models.csproj" />
   </ItemGroup>

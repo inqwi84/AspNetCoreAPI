@@ -52,7 +52,11 @@ namespace TimeTrackingSystem
             {
                 app.UseDeveloperExceptionPage();
             }
-            loggerFactory.AddFile("Logs/logfile-{Date}.txt");
+
+            //можно включить логирование в файл
+             loggerFactory.AddFile("Logs/logfile-{Date}.txt");
+
+
             // Enable middleware to serve generated Swagger as a JSON endpoint.
             app.UseSwagger();
 

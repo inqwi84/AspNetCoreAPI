@@ -4,7 +4,7 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using TimeTrackingSystem.Data.Access.DAL;
+using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Data.Model;
 
 namespace TimeTrackingSystem.Controllers
@@ -79,7 +79,8 @@ namespace TimeTrackingSystem.Controllers
         {
             try
             {
-                return Ok(new { EmployeeId = await _repository.UpdateEmployee(new Employee { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
+                await _repository.UpdateEmployee(new Employee { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName });
+                return Ok();
             }
             catch (Exception ex)
             {
@@ -110,7 +111,8 @@ namespace TimeTrackingSystem.Controllers
         {
             try
             {
-                return Ok(new { DepartmentId = await _repository.UpdateDepartment(new Department() { DepartmentId = DepartmentId, DepartmentName = Name }) });
+                await _repository.UpdateDepartment(new Department { DepartmentId = DepartmentId, DepartmentName = Name });
+                return StatusCode((int)HttpStatusCode.OK);
             }
             catch (Exception ex)
             {

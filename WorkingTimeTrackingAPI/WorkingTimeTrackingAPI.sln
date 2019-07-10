@@ -17,8 +17,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{1D101DF0
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.Api.Tests", "TimeTrackingSystem.Api.Tests\TimeTrackingSystem.Api.Tests.csproj", "{C5E6F1AA-3D13-418C-BD46-91E307A62278}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TimeTrackingSystem.queryProcessor.Tests", "TimeTrackingSystem.queryProcessor.Tests\TimeTrackingSystem.queryProcessor.Tests.csproj", "{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,17 +47,12 @@ Global
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{C5E6F1AA-3D13-418C-BD46-91E307A62278} = {1D101DF0-1DDF-4AA4-B53E-D7B3120F667D}
-		{2D9E3180-0F17-4CB9-A613-6E3F7B580B7B} = {1D101DF0-1DDF-4AA4-B53E-D7B3120F667D}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A2F62BAB-1D25-4532-9F55-060D58A952B5}

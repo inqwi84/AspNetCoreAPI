@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Data.Access.Context;
 using TimeTrackingSystem.Data.Model;
 using TimeTrackingSystem.Models;
@@ -22,7 +23,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
         public TimeTrackingSystemRepository(TimeTrackingSystemDbContext context, ILoggerFactory loggerFactory)
         {
             _context = context;
-            _logger = loggerFactory.CreateLogger("ITimeTrackingSystemRepository");
+            _logger = loggerFactory.CreateLogger("TimeTrackingSystemRepository");
         }
 
         public async Task<IEnumerable<EmployeeInfo>> GetAllEmployees()
@@ -30,7 +31,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
             IEnumerable<EmployeeInfo> result = Enumerable.Empty<EmployeeInfo>();
             try
             {
-                _logger.LogCritical("Getting employees list");
+                _logger.LogInformation("Getting employees list");
                 result = await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
             }
             catch (Exception e)
@@ -43,13 +44,13 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<IEnumerable<DepartmentInfo>> GetAllDepartments()
         {
-            _logger.LogCritical("Get departments list");
+            _logger.LogInformation("Get departments list");
             return await _context.Departments.Select(d => new DepartmentInfo { DepartmentName = d.DepartmentName, EmployeeCount = d.Employees.Count }).ToArrayAsync().ConfigureAwait(false);
         }
 
         public async Task<long> AddEmployee(Employee employee)
         {
-            _logger.LogCritical("Add employee");
+            _logger.LogInformation("Add employee");
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return employee.EmployeeId;
@@ -57,7 +58,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<long> UpdateEmployee(Employee employee)
         {
-            _logger.LogCritical($"Update employee {employee.EmployeeId}");
+            _logger.LogInformation($"Update employee {employee.EmployeeId}");
             var existing = _context.Employees.Find(employee.EmployeeId);
             if (existing == null) throw new Exception("Employee doesn't exist");
             existing.FirstName = employee.FirstName;
@@ -68,7 +69,11 @@ namespace TimeTrackingSystem.Data.Access.DAL
         }
         public async Task<long> AddDepartment(Department department)
         {
-            _logger.LogCritical("Add department");
+            if (string.IsNullOrWhiteSpace(department.DepartmentName))
+            {
+                throw new Exception("Department must have name");
+            }
+            _logger.LogInformation("Add department");
             _context.Departments.Add(department);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return department.DepartmentId;
@@ -76,7 +81,11 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<long> UpdateDepartment(Department department)
         {
-            _logger.LogCritical($"Update department {department.DepartmentId}");
+            _logger.LogInformation($"Update department {department.DepartmentId}");
+            if (string.IsNullOrWhiteSpace(department.DepartmentName))
+            {
+                throw new Exception("Department must have name");
+            }
             var existing = _context.Departments.Find(department.DepartmentId);
             if (existing == null) throw new Exception("Department doesn't exist");
             existing.DepartmentName = department.DepartmentName;
@@ -86,7 +95,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<bool> StartEmployeeTimeSheet(long employeeId)
         {
-            _logger.LogCritical($"Start timesheet for employee {employeeId}");
+            _logger.LogInformation($"Start timesheet for employee {employeeId}");
             var existing = _context.Employees.Find(employeeId);
             if (existing == null) throw new Exception("Employee doesn't exist");
 
@@ -111,7 +120,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<bool> StopEmployeeTimeSheet(long employeeId)
         {
-            _logger.LogCritical($"End timesheet for employee {employeeId}");
+            _logger.LogInformation($"End timesheet for employee {employeeId}");
             var existing = _context.Employees.Find(employeeId);
             if (existing == null) throw new Exception("Employee doesn't exist");
 
@@ -134,7 +143,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<IEnumerable<TimesheetInfo>> GetEmployeesWorkedHours(DateTime dateFrom, DateTime dateTo)
         {
-            _logger.LogCritical($"Get worked hours for employees from {dateFrom} to {dateTo}");
+            _logger.LogInformation($"Get worked hours for employees from {dateFrom} to {dateTo}");
             if (dateTo < dateFrom)
             {
                 throw new Exception("Start date must be greater than end date");
