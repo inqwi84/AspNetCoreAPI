@@ -13,7 +13,7 @@ namespace TimeTrackingSystem.Data.Access.Migrations
                 {
                     DepartmentId = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    DepartmentName = table.Column<string>(nullable: true)
+                    DepartmentName = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -26,8 +26,8 @@ namespace TimeTrackingSystem.Data.Access.Migrations
                 {
                     EmployeeId = table.Column<long>(nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
-                    FirstName = table.Column<string>(nullable: true),
-                    LastName = table.Column<string>(nullable: true),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
                     DepartmentId = table.Column<long>(nullable: false),
                     IsDeleted = table.Column<long>(nullable: false)
                 },
@@ -50,7 +50,7 @@ namespace TimeTrackingSystem.Data.Access.Migrations
                         .Annotation("Sqlite:Autoincrement", true),
                     EmployeeId = table.Column<long>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
-                    FinishTime = table.Column<DateTime>(nullable: false)
+                    FinishTime = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {

@@ -13,5 +13,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
         Task<long> UpdateEmployee(Employee employee);
         Task<long> AddDepartment(Department department);
         Task<long> UpdateDepartment(Department department);
+        Task<bool> StartEmployeeTimeSheet(long employeeId);
+        Task<bool> StopEmployeeTimeSheet(long employeeId);
     }
 }

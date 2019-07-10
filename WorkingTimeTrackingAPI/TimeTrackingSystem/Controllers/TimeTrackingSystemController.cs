@@ -114,6 +114,21 @@ namespace TimeTrackingSystem.Controllers
             }
         }
 
+        /// <summary>
+        ///  Register employee action
+        /// </summary>
+        [HttpPost("timesheet")]
+        public async Task<IActionResult> RegisterEmployeeAction([Required] long EmployeeId, [Required] bool Action)
+        {
+            try
+            {
+                return Action == false ? Ok(await _repository.StartEmployeeTimeSheet(EmployeeId)) : Ok(await _repository.StopEmployeeTimeSheet(EmployeeId));
+            }
+            catch (Exception ex)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+            }
+        }
 
         // GET api/values/5
         [HttpGet("{id}")]

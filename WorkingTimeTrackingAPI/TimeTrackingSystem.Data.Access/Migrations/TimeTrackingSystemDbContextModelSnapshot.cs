@@ -21,7 +21,8 @@ namespace TimeTrackingSystem.Data.Access.Migrations
                     b.Property<long>("DepartmentId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<string>("DepartmentName");
+                    b.Property<string>("DepartmentName")
+                        .IsRequired();
 
                     b.HasKey("DepartmentId");
 
@@ -35,11 +36,13 @@ namespace TimeTrackingSystem.Data.Access.Migrations
 
                     b.Property<long>("DepartmentId");
 
-                    b.Property<string>("FirstName");
+                    b.Property<string>("FirstName")
+                        .IsRequired();
 
                     b.Property<long>("IsDeleted");
 
-                    b.Property<string>("LastName");
+                    b.Property<string>("LastName")
+                        .IsRequired();
 
                     b.HasKey("EmployeeId");
 
@@ -55,7 +58,7 @@ namespace TimeTrackingSystem.Data.Access.Migrations
 
                     b.Property<long>("EmployeeId");
 
-                    b.Property<DateTime>("FinishTime");
+                    b.Property<DateTime?>("FinishTime");
 
                     b.Property<DateTime>("StartTime");
 
@@ -68,7 +71,7 @@ namespace TimeTrackingSystem.Data.Access.Migrations
 
             modelBuilder.Entity("TimeTrackingSystem.Data.Model.Employee", b =>
                 {
-                    b.HasOne("TimeTrackingSystem.Data.Model.Department")
+                    b.HasOne("TimeTrackingSystem.Data.Model.Department", "Department")
                         .WithMany("Employees")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade);

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Swashbuckle.AspNetCore.Swagger;
@@ -30,11 +31,8 @@ namespace TimeTrackingSystem
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
 
-            var connection = "Data Source=local.db";
+            services.AddEntityFrameworkSqlite().AddDbContext<TimeTrackingSystemDbContext>();
 
-            services.AddDbContext<TimeTrackingSystemDbContext>(options =>
-                options.UseSqlite(connection)
-            );
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new Info() { Title = _apiName, Version = _apiVersion });
@@ -46,10 +44,6 @@ namespace TimeTrackingSystem
             services.AddMvc();
 
             services.AddScoped<ITimeTrackingSystemRepository, TimeTrackingSystemRepository>();
-            // BloggingContext requires
-            // using EFGetStarted.AspNetCore.NewDb.Models;
-            // UseSqlServer requires
-            // using Microsoft.EntityFrameworkCore;
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

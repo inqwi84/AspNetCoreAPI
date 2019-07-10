@@ -8,9 +8,12 @@ namespace TimeTrackingSystem.Data.Access.Context
         public DbSet<Department> Departments { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Timesheet> Timesheets { get; set; }
-        public TimeTrackingSystemDbContext(DbContextOptions<TimeTrackingSystemDbContext> options) : base(options)
+        public TimeTrackingSystemDbContext()
         {
-            SQLitePCL.raw.SetProvider(new SQLitePCL.SQLite3Provider_e_sqlite3());
+        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlite("Filename=local.db");
         }
         protected override void OnModelCreating(ModelBuilder builder)
         {

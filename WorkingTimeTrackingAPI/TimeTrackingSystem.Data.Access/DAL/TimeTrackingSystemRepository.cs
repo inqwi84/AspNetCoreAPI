@@ -27,7 +27,7 @@ namespace TimeTrackingSystem.Data.Access.DAL
             IEnumerable<EmployeeInfo> result = Enumerable.Empty<EmployeeInfo>();
             try
             {
-                _logger.LogCritical("Getting a the existing records");
+                _logger.LogCritical("Getting employees list");
                 result = await _context.Employees.Include(em => em.Department).Select(em => new EmployeeInfo { EmployeeFullName = $"{em.LastName} {em.FirstName}", DepartmentName = em.Department.DepartmentName }).ToArrayAsync().ConfigureAwait(false);
             }
             catch (Exception e)
@@ -40,13 +40,13 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<IEnumerable<DepartmentInfo>> GetAllDepartments()
         {
-            _logger.LogCritical("Getting a the existing records");
+            _logger.LogCritical("Get departments list");
             return await _context.Departments.Select(d => new DepartmentInfo { DepartmentName = d.DepartmentName, EmployeeCount = d.Employees.Count }).ToArrayAsync().ConfigureAwait(false);
         }
 
         public async Task<long> AddEmployee(Employee employee)
         {
-            _logger.LogCritical("Getting a the existing records");
+            _logger.LogCritical("Add employee");
             _context.Employees.Add(employee);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return employee.EmployeeId;
@@ -54,18 +54,18 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<long> UpdateEmployee(Employee employee)
         {
-            _logger.LogCritical("Getting a the existing records");
+            _logger.LogCritical($"Update employee {employee.EmployeeId}");
             var existing = _context.Employees.Find(employee.EmployeeId);
             if (existing == null) throw new Exception("Employee doesn't exist");
             existing.FirstName = employee.FirstName;
             existing.LastName = employee.LastName;
             existing.DepartmentId = employee.DepartmentId;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             return employee.EmployeeId;
         }
         public async Task<long> AddDepartment(Department department)
         {
-            _logger.LogCritical("Getting a the existing records");
+            _logger.LogCritical("Add department");
             _context.Departments.Add(department);
             await _context.SaveChangesAsync().ConfigureAwait(false);
             return department.DepartmentId;
@@ -73,13 +73,60 @@ namespace TimeTrackingSystem.Data.Access.DAL
 
         public async Task<long> UpdateDepartment(Department department)
         {
-            _logger.LogCritical("Getting a the existing records");
+            _logger.LogCritical($"Update department {department.DepartmentId}");
             var existing = _context.Departments.Find(department.DepartmentId);
             if (existing == null) throw new Exception("Department doesn't exist");
             existing.DepartmentName = department.DepartmentName;
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync().ConfigureAwait(false);
             return department.DepartmentId;
         }
 
+        public async Task<bool> StartEmployeeTimeSheet(long employeeId)
+        {
+            _logger.LogCritical($"Start timesheet for employee {employeeId}");
+            var existing = _context.Employees.Find(employeeId);
+            if (existing == null) throw new Exception("Employee doesn't exist");
+
+            var lastAction = _context.Timesheets.LastOrDefault(t => t.EmployeeId == employeeId);
+            if (lastAction == null)
+            {
+                //First time at work
+                _context.Timesheets.Add(new Timesheet() { EmployeeId = employeeId, FinishTime = null, StartTime = DateTime.Now.ToUniversalTime() });
+                var result = await _context.SaveChangesAsync().ConfigureAwait(false);
+                return result > 0;
+            }
+
+            if (lastAction.FinishTime.HasValue)
+            {
+                //Last sheet is completed
+                _context.Timesheets.Add(new Timesheet() { EmployeeId = employeeId, FinishTime = null, StartTime = DateTime.Now.ToUniversalTime() });
+                var result = await _context.SaveChangesAsync().ConfigureAwait(false);
+                return result > 0;
+            }
+            throw new Exception("Can't start new timesheet before precedent is not ended");
+        }
+
+        public async Task<bool> StopEmployeeTimeSheet(long employeeId)
+        {
+            _logger.LogCritical($"End timesheet for employee {employeeId}");
+            var existing = _context.Employees.Find(employeeId);
+            if (existing == null) throw new Exception("Employee doesn't exist");
+
+            var lastAction = _context.Timesheets.LastOrDefault(t => t.EmployeeId == employeeId);
+            if (lastAction == null)
+            {
+                //First time at work
+                throw new Exception("Can't end a timesheet before start");
+            }
+
+            if (lastAction.FinishTime.HasValue)
+            {
+                //Last sheet is completed
+                throw new Exception("Can't end a timesheet before start");
+            }
+            _context.Timesheets.Update(new Timesheet() { EmployeeId = employeeId, FinishTime = DateTime.Now.ToUniversalTime() });
+            var result = await _context.SaveChangesAsync().ConfigureAwait(false);
+            return result > 0;
+        }
     }
 }

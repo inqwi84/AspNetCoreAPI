@@ -22,7 +22,7 @@ namespace TimeTrackingSystem.Data.Model
         /// <summary>
         /// Окончание рабочего времени
         /// </summary>
-        public DateTime FinishTime { get; set; }
+        public DateTime? FinishTime { get; set; }
 
     }
 }
