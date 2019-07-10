@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using TimeTrackingSystem.Data.Access.DAL;
 using TimeTrackingSystem.Data.Model;
@@ -19,10 +20,19 @@ namespace TimeTrackingSystem.Controllers
         /// Get all employees
         /// </summary>
         /// <returns>List of employees</returns>
-        [HttpGet]
-        public IEnumerable<Employee> Get()
+        [HttpGet("employee")]
+        public async Task<ActionResult<IEnumerable<Employee>>> GetEmployees()
         {
-            return _repository.GetAllEmployees();
+            return await _repository.GetAllEmployees();
+        }
+        /// <summary>
+        /// Get all departments
+        /// </summary>
+        /// <returns>List of departments</returns>
+        [HttpGet("department")]
+        public async Task<ActionResult<IEnumerable<Department>>> GetDepartments()
+        {
+            return await _repository.GetAllDepartments();
         }
 
         // GET api/values/5

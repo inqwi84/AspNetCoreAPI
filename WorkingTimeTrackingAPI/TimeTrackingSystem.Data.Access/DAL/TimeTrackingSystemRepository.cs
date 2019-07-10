@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Data.Access.Context;
 using TimeTrackingSystem.Data.Model;
@@ -18,16 +19,16 @@ namespace TimeTrackingSystem.Data.Access.DAL
             _logger = loggerFactory.CreateLogger("ITimeTrackingSystemRepository");
         }
 
-        public List<Employee> GetAllEmployees()
+        public async Task<List<Employee>> GetAllEmployees()
         {
             _logger.LogCritical("Getting a the existing records");
-            return _context.Employees.ToList();
+            return await _context.Employees.ToListAsync().ConfigureAwait(false);
         }
 
-        public List<Department> GetAllDepartments()
+        public async Task<List<Department>> GetAllDepartments()
         {
             _logger.LogCritical("Getting a the existing records");
-            return _context.Departments.ToList();
+            return await _context.Departments.ToListAsync().ConfigureAwait(false);
         }
     }
 }

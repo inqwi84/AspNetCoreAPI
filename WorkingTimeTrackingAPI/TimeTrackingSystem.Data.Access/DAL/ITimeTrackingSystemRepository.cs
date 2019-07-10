@@ -1,14 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using TimeTrackingSystem.Data.Model;
 
 namespace TimeTrackingSystem.Data.Access.DAL
 {
     public interface ITimeTrackingSystemRepository
     {
-        List<Employee> GetAllEmployees();
+        Task<List<Employee>> GetAllEmployees();
 
-        List<Department> GetAllDepartments();
+        Task<List<Department>> GetAllDepartments();
     }
 }
