@@ -30,11 +30,7 @@ namespace TimeTrackingSystem.Data.Model
         /// <summary>
         /// Список периодов работы
         /// </summary>
-        public IList<Timesheet> Timesheets { get; set; }
+        public ICollection<Timesheet> Timesheets { get; set; }
 
-        public Employee()
-        {
-            Timesheets=new List<Timesheet>();
-        }
     }
 }

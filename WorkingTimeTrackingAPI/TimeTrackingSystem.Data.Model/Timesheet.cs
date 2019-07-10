@@ -10,7 +10,7 @@ namespace TimeTrackingSystem.Data.Model
         /// <summary>
         /// Идентификатор периода времени
         /// </summary>
-        public long Id { get; set; }
+        public long TimesheetId { get; set; }
         /// <summary>
         /// Идентификатор сотрудника
         /// </summary>

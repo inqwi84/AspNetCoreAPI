@@ -19,11 +19,7 @@ namespace TimeTrackingSystem.Data.Model
         /// <summary>
         /// Список сотрудников
         /// </summary>
-        public List<Employee> Employees { get; set; }
+        public ICollection<Employee> Employees { get; set; }
 
-        public Department()
-        {
-            Employees= new List<Employee>();
-        }
     }
 }
