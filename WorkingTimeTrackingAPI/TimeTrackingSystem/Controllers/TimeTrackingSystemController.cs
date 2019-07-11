@@ -35,7 +35,7 @@ namespace TimeTrackingSystem.Controllers
             try
             {
                 var employeeResult = await _repository.GetAllEmployees();
-                return Ok(employeeResult.Select(t=>t.GetDisplayEmployee()));
+                return Ok(employeeResult.Select(t => t.GetDisplayEmployee()));
             }
             catch (Exception ex)
             {
@@ -125,6 +125,10 @@ namespace TimeTrackingSystem.Controllers
         [HttpPost("department")]
         public async Task<IActionResult> CreateDepartment([Required] string Name)
         {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Название отдела не может быть пустым");
+            }
             try
             {
                 var id = new { DepartmentId = await _repository.AddDepartment(new DepartmentInfo { DepartmentName = Name }) };
@@ -140,8 +144,17 @@ namespace TimeTrackingSystem.Controllers
         /// Update department
         /// </summary>
         [HttpPut("department")]
-        public async Task<IActionResult> UpdateDepartment([Required] string Name, [Required] long DepartmentId)
+        public async Task<IActionResult> UpdateDepartment([Required] string Name, [Required] long? DepartmentId)
         {
+            if (string.IsNullOrWhiteSpace(Name))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Название отдела не может быть пустым");
+            }
+
+            if (DepartmentId.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задан идентификатор отдела");
+            }
             try
             {
                 await _repository.UpdateDepartment(new DepartmentInfo() { DepartmentId = DepartmentId, DepartmentName = Name });
@@ -157,11 +170,19 @@ namespace TimeTrackingSystem.Controllers
         ///  Register employee action
         /// </summary>
         [HttpPost("timesheet")]
-        public async Task<IActionResult> RegisterEmployeeAction([Required] long EmployeeId, [Required] bool Action)
+        public async Task<IActionResult> RegisterEmployeeAction([Required] long? EmployeeId, bool? Action)
         {
+            if (EmployeeId.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задан сотрудник");
+            }
+            if (Action.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задано действие");
+            }
             try
             {
-                return Action == false ? Ok(await _repository.StartEmployeeTimeSheet(EmployeeId)) : Ok(await _repository.StopEmployeeTimeSheet(EmployeeId));
+                return Action == false ? Ok(await _repository.StartEmployeeTimeSheet(EmployeeId.Value)) : Ok(await _repository.StopEmployeeTimeSheet(EmployeeId.Value));
             }
             catch (Exception ex)
             {
@@ -174,11 +195,23 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of employees</returns>
         [HttpGet("timesheet")]
-        public async Task<ActionResult> GetEmployeesWorkedHours([Required] DateTime DateFrom, [Required] DateTime DateTo)
+        public async Task<ActionResult> GetEmployeesWorkedHours(DateTime? DateFrom, DateTime? DateTo)
         {
+            if (DateFrom.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задана дата начала");
+            }
+            if (DateTo.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задана дата окончания");
+            }
+            if (DateTo < DateFrom)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Дата окончания не может быть больше даты начала");
+            }
             try
             {
-                return Ok(new { StartPeriod = DateFrom, EndPeriod = DateTo, Employee = await _repository.GetEmployeesWorkedHours(DateFrom, DateTo) });
+                return Ok(new { StartPeriod = DateFrom, EndPeriod = DateTo, Employee = await _repository.GetEmployeesWorkedHours(DateFrom.Value, DateTo.Value) });
             }
             catch (Exception ex)
             {
