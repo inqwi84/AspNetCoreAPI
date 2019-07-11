@@ -1,11 +1,14 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Api.Core;
-using TimeTrackingSystem.Data.Model;
+using TimeTrackingSystem.Api.Core.Models;
+using TimeTrackingSystem.Extensions;
+using TimeTrackingSystem.Models;
 
 namespace TimeTrackingSystem.Controllers
 {
@@ -31,7 +34,8 @@ namespace TimeTrackingSystem.Controllers
             _logger.LogInformation("Get employees");
             try
             {
-                return Ok(await _repository.GetAllEmployees());
+                var employeeResult = await _repository.GetAllEmployees();
+                return Ok(employeeResult.Select(t=>t.GetDisplayEmployee()));
             }
             catch (Exception ex)
             {
@@ -59,15 +63,27 @@ namespace TimeTrackingSystem.Controllers
         /// Add employee
         /// </summary>
         [HttpPost("employee")]
-        public async Task<IActionResult> CreateEmployee([Required] string LastName, [Required]string FirstName, [Required] long DepartmentId)
+        public async Task<IActionResult> CreateEmployee([FromQuery]CreateEmployee employee)
         {
+            if (string.IsNullOrWhiteSpace(employee.LastName))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Фамилия не может быть пустой");
+            }
+            if (string.IsNullOrWhiteSpace(employee.FirstName))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Имя не может быть пустым");
+            }
+            if (employee.DepartmentId.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задан идентификатор отдела");
+            }
             try
             {
-                return Ok(new { EmployeeId = await _repository.AddEmployee(new Employee { DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName }) });
+                return Ok(new { EmployeeId = await _repository.AddEmployee(employee) });
             }
             catch (Exception ex)
             {
-                return StatusCode((int)HttpStatusCode.InternalServerError, ex.Message);
+                return StatusCode((int)HttpStatusCode.InternalServerError, ex.InnerException != null ? ex.InnerException.Message : ex.Message);
             }
         }
 
@@ -75,11 +91,27 @@ namespace TimeTrackingSystem.Controllers
         /// Update employee
         /// </summary>
         [HttpPut("employee")]
-        public async Task<IActionResult> UpdateEmployee([Required] long EmployeeId, [Required] string LastName, [Required]string FirstName, [Required] long DepartmentId)
+        public async Task<IActionResult> UpdateEmployee([FromQuery]UpdateEmployee employee)
         {
+            if (employee.EmployeeId.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задан идентификатор пользователя");
+            }
+            if (string.IsNullOrWhiteSpace(employee.LastName))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Фамилия не может быть пустой");
+            }
+            if (string.IsNullOrWhiteSpace(employee.FirstName))
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Имя не может быть пустым");
+            }
+            if (employee.DepartmentId.HasValue == false)
+            {
+                return StatusCode((int)HttpStatusCode.InternalServerError, "Не задан идентификатор отдела");
+            }
             try
             {
-                await _repository.UpdateEmployee(new Employee { EmployeeId = EmployeeId, DepartmentId = DepartmentId, LastName = LastName, FirstName = FirstName });
+                await _repository.UpdateEmployee(employee);
                 return Ok();
             }
             catch (Exception ex)
@@ -95,7 +127,8 @@ namespace TimeTrackingSystem.Controllers
         {
             try
             {
-                return Ok(new { DepartmentId = await _repository.AddDepartment(new Department { DepartmentName = Name }) });
+                var id = new { DepartmentId = await _repository.AddDepartment(new DepartmentInfo { DepartmentName = Name }) };
+                return Ok(id);
             }
             catch (Exception ex)
             {
@@ -111,7 +144,7 @@ namespace TimeTrackingSystem.Controllers
         {
             try
             {
-                await _repository.UpdateDepartment(new Department { DepartmentId = DepartmentId, DepartmentName = Name });
+                await _repository.UpdateDepartment(new DepartmentInfo() { DepartmentId = DepartmentId, DepartmentName = Name });
                 return StatusCode((int)HttpStatusCode.OK);
             }
             catch (Exception ex)

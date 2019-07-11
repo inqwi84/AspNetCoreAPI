@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TimeTrackingSystem.Data.Model;
+using TimeTrackingSystem.Data.Access.Models;
 
 namespace TimeTrackingSystem.Data.Access.Context
 {

@@ -1,14 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using TimeTrackingSystem.Data.Model;
-using TimeTrackingSystem.Models;
+using TimeTrackingSystem.Api.Core.Interfaces.Employee;
 
 namespace TimeTrackingSystem.Api.Core
 {
     public interface IEmployeeRepository
     {
-        Task<IEnumerable<DepartmentInfo>> GetAllDepartments();
-        Task<long> AddEmployee(Employee employee);
-        Task<long> UpdateEmployee(Employee employee);
+        Task<IEnumerable<IEmployee>> GetAllEmployees();
+        Task<long?> AddEmployee(ICreateEmployee employee);
+        Task<long?> UpdateEmployee(IUpdateEmployee employee);
     }
 }

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using TimeTrackingSystem.Models;
+using TimeTrackingSystem.Api.Core.Models;
 
 namespace TimeTrackingSystem.Api.Core
 {
