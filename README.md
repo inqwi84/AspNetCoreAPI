@@ -15,4 +15,4 @@ https://dotnet.microsoft.com/download/thank-you/dotnet-sdk-2.2.108-windows-x64-i
 
 7. Добавил юнит тесты. Если нужно, я могу дополнить.
 
-8. Подключил swagger и комментарии из summary. 
+8. Подключил swagger и комментарии из summary. (http://<ip>:<port>/swagger)
