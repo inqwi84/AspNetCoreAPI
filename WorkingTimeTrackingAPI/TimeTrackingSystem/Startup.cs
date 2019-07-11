@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Net.Http.Formatting;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -7,10 +8,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using Swashbuckle.AspNetCore.Swagger;
 using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Data.Access.Context;
 using TimeTrackingSystem.Data.Access.DAL;
+using TimeTrackingSystem.Extensions;
 
 namespace TimeTrackingSystem
 {
@@ -40,7 +43,12 @@ namespace TimeTrackingSystem
                 var xmlPath = Path.Combine(AppContext.BaseDirectory, xmlFile);
                 c.IncludeXmlComments(xmlPath);
             });
-            services.AddMvc();
+
+            services.AddMvc() .AddJsonOptions(options => 
+                {
+                    options.SerializerSettings.DateFormatString = "yyyy-MM-dd HH:mm";
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
             services.AddScoped<ITimeTrackingSystemRepository, TimeTrackingSystemRepository>();
         }
@@ -65,7 +73,9 @@ namespace TimeTrackingSystem
             app.UseSwaggerUI(c =>
             {
                 c.SwaggerEndpoint("/swagger/v1/swagger.json", $"{_apiName} {_apiVersion}");
+                
             });
+
 
             app.UseMiddleware<ExceptionMiddleware>();
 

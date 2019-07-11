@@ -2,12 +2,14 @@
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Net;
+using System.Runtime.Serialization;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Api.Core.Models;
 using TimeTrackingSystem.Extensions;
+using TimeTrackingSystem.Models;
 using TimeTrackingSystem.Models.Employee;
 
 namespace TimeTrackingSystem.Controllers
@@ -195,23 +197,23 @@ namespace TimeTrackingSystem.Controllers
         /// </summary>
         /// <returns>List of employees</returns>
         [HttpGet("timesheet")]
-        public async Task<ActionResult> GetEmployeesWorkedHours(DateTime? DateFrom, DateTime? DateTo)
+        public async Task<ActionResult> GetEmployeesWorkedHours([FromQuery]TimesheetPeriod period)
         {
-            if (DateFrom.HasValue == false)
+            if (period.DateFrom.HasValue == false)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Не задана дата начала");
             }
-            if (DateTo.HasValue == false)
+            if (period.DateTo.HasValue == false)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Не задана дата окончания");
             }
-            if (DateTo < DateFrom)
+            if (period.DateTo < period.DateFrom)
             {
                 return StatusCode((int)HttpStatusCode.InternalServerError, "Дата окончания не может быть больше даты начала");
             }
             try
             {
-                return Ok(new { StartPeriod = DateFrom, EndPeriod = DateTo, Employee = await _repository.GetEmployeesWorkedHours(DateFrom.Value, DateTo.Value) });
+                return Ok(new { StartPeriod = period.DateFrom, EndPeriod = period.DateTo, Employee = await _repository.GetEmployeesWorkedHours(period.DateFrom.Value, period.DateTo.Value) });
             }
             catch (Exception ex)
             {
