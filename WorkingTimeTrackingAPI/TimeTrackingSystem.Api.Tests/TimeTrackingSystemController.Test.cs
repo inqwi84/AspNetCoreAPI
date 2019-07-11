@@ -6,6 +6,7 @@ using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using TimeTrackingSystem.Api.Core;
+using TimeTrackingSystem.Api.Core.Interfaces.Employee;
 using TimeTrackingSystem.Api.Core.Models;
 using TimeTrackingSystem.Controllers;
 using Xunit;
@@ -38,14 +39,14 @@ namespace TimeTrackingSystem.Api.Tests
         }
 
 
-        public static IEnumerable<EmployeeInfo> GetEmployees()
+        public static IEnumerable<IEmployee> GetEmployees()
         {
             return new[]
             {
-                new EmployeeInfo("ivan","ivanov",  1),
-                new EmployeeInfo("petr","petrov",  1),
-                new EmployeeInfo("vasiliy","vasilyiev",  2),
-                new EmployeeInfo("anton","zvyaghintsev",  3)
+                new EmployeeInfo("ivan","ivanov",  1, 1,"department1"),
+                new EmployeeInfo("petr","petrov",  1, 2,"department1"),
+                new EmployeeInfo("vasiliy","vasilyiev",  2, 3,"department2"),
+                new EmployeeInfo("anton","zvyaghintsev",  3, 4,"department3")
             };
         }
         [Fact]
