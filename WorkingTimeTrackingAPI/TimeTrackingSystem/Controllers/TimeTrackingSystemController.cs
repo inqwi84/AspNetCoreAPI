@@ -8,7 +8,7 @@ using Microsoft.Extensions.Logging;
 using TimeTrackingSystem.Api.Core;
 using TimeTrackingSystem.Api.Core.Models;
 using TimeTrackingSystem.Extensions;
-using TimeTrackingSystem.Models;
+using TimeTrackingSystem.Models.Employee;
 
 namespace TimeTrackingSystem.Controllers
 {

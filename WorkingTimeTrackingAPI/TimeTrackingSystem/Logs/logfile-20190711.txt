@@ -292,3 +292,5 @@
 2019-07-11T09:46:51.8552397+03:00 0HLO5PDDFFICO:00000007 [INF] Executed action "TimeTrackingSystem.Controllers.TimeTrackingSystemController.GetDepartments (TimeTrackingSystem)" in 13.7312ms (afa2e885)
 2019-07-11T09:46:51.8573522+03:00 0HLO5PDDFFICO:00000007 [INF] Executed endpoint '"TimeTrackingSystem.Controllers.TimeTrackingSystemController.GetDepartments (TimeTrackingSystem)"' (99874f2b)
 2019-07-11T09:46:51.8589454+03:00 0HLO5PDDFFICO:00000007 [INF] Request finished in 21.9979ms 200 application/json; charset=utf-8 (791a596a)
+2019-07-11T09:55:05.5076049+03:00 0HLO5PIQ2M6HQ:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/timetrackingsystem   (ca22a1cb)
+2019-07-11T09:55:05.6223250+03:00 0HLO5PIQ2M6HQ:00000001 [INF] Request finished in 123.2551ms 404  (791a596a)

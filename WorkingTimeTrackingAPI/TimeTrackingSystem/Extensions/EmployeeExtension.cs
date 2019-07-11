@@ -1,6 +1,5 @@
-﻿using TimeTrackingSystem.Api.Core;
-using TimeTrackingSystem.Api.Core.Interfaces.Employee;
-using TimeTrackingSystem.Models;
+﻿using TimeTrackingSystem.Api.Core.Interfaces.Employee;
+using TimeTrackingSystem.Models.Employee;
 
 namespace TimeTrackingSystem.Extensions
 {

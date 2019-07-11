@@ -1,7 +1,6 @@
-﻿using TimeTrackingSystem.Api.Core;
-using TimeTrackingSystem.Api.Core.Interfaces.Employee;
+﻿using TimeTrackingSystem.Api.Core.Interfaces.Employee;
 
-namespace TimeTrackingSystem.Models
+namespace TimeTrackingSystem.Models.Employee
 {
     public class CreateEmployee:ICreateEmployee
     {
