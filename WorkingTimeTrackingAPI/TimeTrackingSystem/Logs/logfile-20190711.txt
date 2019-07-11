@@ -438,3 +438,5 @@
 2019-07-11T10:15:23.7720787+03:00 0HLO5PTKA5Q9E:00000005 [INF] Executed action "TimeTrackingSystem.Controllers.TimeTrackingSystemController.GetEmployeesWorkedHours (TimeTrackingSystem)" in 122.0828ms (afa2e885)
 2019-07-11T10:15:23.7734711+03:00 0HLO5PTKA5Q9E:00000005 [INF] Executed endpoint '"TimeTrackingSystem.Controllers.TimeTrackingSystemController.GetEmployeesWorkedHours (TimeTrackingSystem)"' (99874f2b)
 2019-07-11T10:15:23.7748864+03:00 0HLO5PTKA5Q9E:00000005 [INF] Request finished in 139.4141ms 200 application/json; charset=utf-8 (791a596a)
+2019-07-11T03:13:13.7854144-07:00 0HLO5T1FOOMH9:00000001 [INF] Request starting HTTP/1.1 GET http://localhost:5000/timetrackingsystem   (ca22a1cb)
+2019-07-11T03:13:15.9825077-07:00 0HLO5T1FOOMH9:00000001 [INF] Request finished in 2202.6703ms 404  (791a596a)
