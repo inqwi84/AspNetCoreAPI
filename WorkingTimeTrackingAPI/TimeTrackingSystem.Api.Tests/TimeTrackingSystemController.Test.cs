@@ -16,7 +16,13 @@ namespace TimeTrackingSystem.Api.Tests
     public class TimeTrackingSystemTestController
     {
 
-     public static IEnumerable<DepartmentEmployees> GetDepartments()
+
+        public static StatusCodeResult ErrorResult()
+        {
+            return new StatusCodeResult(500);
+        }
+
+        public static IEnumerable<DepartmentEmployees> GetDepartments()
         {
             return new[]
             {
@@ -105,7 +111,7 @@ namespace TimeTrackingSystem.Api.Tests
         {
             //Arrange
             var mockRepo = new Mock<ITimeTrackingSystemRepository>();
-            mockRepo.Setup(i => i.AddDepartment(new DepartmentInfo(){DepartmentName = "Department4"}));
+            mockRepo.Setup(i => i.AddDepartment(new DepartmentInfo() { DepartmentName = "Department4" }));
             var controller = new TimeTrackingSystemController(mockRepo.Object, null);
             //Act  
             var data = await controller.CreateDepartment("Department4");
@@ -117,53 +123,44 @@ namespace TimeTrackingSystem.Api.Tests
         {
             //Arrange  
             var mockRepo = new Mock<ITimeTrackingSystemRepository>();
-            mockRepo.Setup(i => i.AddDepartment(new DepartmentInfo() {DepartmentName = ""}));
+            mockRepo.Setup(i => i.AddDepartment(new DepartmentInfo() { DepartmentName = "" }));
             var controller = new TimeTrackingSystemController(mockRepo.Object, null);
             //Act              
             var data = await controller.CreateDepartment("");
             //Assert  
-            var result = Assert.IsType<OkObjectResult>(data);
+            var result = Assert.IsType<ObjectResult>(data);
             Assert.Equal(500, result.StatusCode);
         }
 
-        //[Fact]
-        //public async void Task_Update_Department_Return_OkResult()
-        //{
-        //    //Arrange  
-        //    var controller = new TimeTrackingSystemController(_repository, null);
+        [Fact]
+        public async void Task_Update_Department_Return_OkResult()
+        {
+            //Arrange  
+            var mockRepo = new Mock<ITimeTrackingSystemRepository>();
+            mockRepo.Setup(i => i.UpdateDepartment(new DepartmentInfo() { DepartmentName = "NewDepartment1", DepartmentId = 1 }));
+            var controller = new TimeTrackingSystemController(mockRepo.Object, null);
 
-        //    //Act  
-        //    var data = await controller.UpdateDepartment("NewDepartment1", 1);
+            //Act  
+            var data = await controller.UpdateDepartment("NewDepartment1", 1);
 
-        //    //Assert  
-        //    var result = Assert.IsType<StatusCodeResult>(data);
-        //    Assert.Equal(200, result.StatusCode);
-        //}
-        //[Fact]
-        //public async void Task_Update_Department_Return_BadRequest()
-        //{
-        //    //Arrange  
-        //    var controller = new TimeTrackingSystemController(_repository, null);
+            //Assert  
+            var result = Assert.IsType<StatusCodeResult>(data);
+            Assert.Equal(200, result.StatusCode);
+        }
+        [Fact]
+        public async void Task_Update_Department_Return_BadRequest()
+        {
+            //Arrange 
+            var mockRepo = new Mock<ITimeTrackingSystemRepository>();
+            mockRepo.Setup(i => i.UpdateDepartment(new DepartmentInfo() { DepartmentName = "", DepartmentId = 1 }));
+            var controller = new TimeTrackingSystemController(mockRepo.Object, null);
 
-        //    //Act  
-        //    var data = await controller.UpdateDepartment("", 1);
+            //Act  
+            var data = await controller.UpdateDepartment("", 1);
 
-        //    //Assert  
-        //    var result = Assert.IsType<ObjectResult>(data);
-        //    Assert.Equal(500, result.StatusCode);
-        //}
-        //[Fact]
-        //public async void Task_Update_Department_Return_NotFound()
-        //{
-        //    //Arrange  
-        //    var controller = new TimeTrackingSystemController(_repository, null);
-
-        //    //Act  
-        //    var data = await controller.UpdateDepartment("Department15", 15);
-        //    //Assert  
-        //    var result = Assert.IsType<ObjectResult>(data);
-        //    Assert.Equal(500, result.StatusCode);
-        //}
+            //Assert  
+            var result = Assert.IsType<ObjectResult>(data);
+            Assert.Equal(500, result.StatusCode);
+        }
     }
-
 }
